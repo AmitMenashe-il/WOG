@@ -1,7 +1,18 @@
 from Live import load_game, welcome
+from flask import Flask, render_template, request
 
-# prints a welcome messege
-welcome(input("Please enter your name\n"))
+app = Flask(__name__, template_folder='/WOG')
 
-# prints games menu, returns game and difficulty as a chained string
-load_game()
+
+@app.route('/')
+def index():
+    return render_template('main.html')
+
+@app.route('/', methods=['POST'])
+def process_form():
+    name = request.form['name']
+    welcome(name)
+    load_game()
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
