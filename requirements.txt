@@ -1,1 +1,1 @@
-py-currency-onverter
+py-currency-converter
