@@ -1,1 +1,1 @@
-pip install py-currency-onverter
+py-currency-onverter
