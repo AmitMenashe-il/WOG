@@ -7,8 +7,10 @@ from GuessGame import GuessGame
 def welcome(name):
     # case first letter-
     name = name.capitalize()
-    print(f"Hello {name} and welcome to the World of Games (WoG).\n" \
+    message=(f"Hello {name} and welcome to the World of Games (WoG).\n" \
           "Here you can find many cool games to play.")
+    return message
+
 
 
 # loads the games menu to select a game and difficulty, returns game and difficulty as a chained string
@@ -25,7 +27,7 @@ def load_game():
 
         # print menu
         while not (game_played.isdigit() and 1 <= int(game_played) <= 3):
-            print('''Please choose a game to play:
+            menu = ('''Please choose a game to play:
             1.Memory Game - a sequence of numbers will appear for 1 second and you have to guess it back
             2.Guess Game - guess a number and see if you chose like the computer
             3.Currency Roulette - try and guess the value of a random amount of USD in ILS
