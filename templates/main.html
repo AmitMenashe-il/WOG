@@ -4,13 +4,28 @@
     <title>World of Games</title>
   </head>
   <body>
-    <h1>Menu</h1>
-    <form method="POST" action="/">
+    <h1>Games Menu</h1>
+    <form method="POST" action="/menu">
       <pre>
-      <label for="menu">{{message|safe}}:</label>
+        <label for="game">{{message}}:</label>
       </pre>
-      <input type="text" name="menu" id="menu">
+      {% if not difficulty %}
+      <span style="margin-left: 80px;">
+      <input type="text" name="game" id="game">
       <input type="submit" value="Submit">
+      {% endif %}
     </form>
+      {% if difficulty %}
+    <form method="POST" action="/menu">
+      <pre>
+        <label for="difficulty">{{difficulty}}:</label>
+      </pre>
+      <span style="margin-left: 80px;">
+      <input type="text" name="difficulty" id="difficulty">
+      <input type="submit" value="Submit"">
+      {% endif %}
+    </form>
+
   </body>
 </html>
+

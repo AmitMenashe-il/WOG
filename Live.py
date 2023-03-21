@@ -1,58 +1,52 @@
 from CurrencyRouletteGame import CurrencyRouletteGame
 from MemoryGame import MemoryGame
 from GuessGame import GuessGame
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
 
 
 # welcomes the player
-def welcome(name):
-    # case first letter-
-    name = name.capitalize()
-    message=(f"Hello {name} and welcome to the World of Games (WoG).\n" \
-          "Here you can find many cool games to play.")
-    return message
-
+@app.route('/', methods=['GET', 'POST'])
+def welcome():
+    if request.method == 'POST':
+        name = request.form['name']
+        name = name.capitalize()
+        welcome_message = f"Hello {name} and welcome to the World of Games (WoG).\n" \
+                          "Here you can find many cool games to play."
+        return render_template('welcome.html', message=welcome_message)
+    else:
+        return render_template('welcome.html')
 
 
 # loads the games menu to select a game and difficulty, returns game and difficulty as a chained string
+@app.route('/menu', methods=['GET', 'POST'])
 def load_game():
+    request.method = 'GET '
     games_list = {"1": MemoryGame, "2": GuessGame, "3": CurrencyRouletteGame}
-    game_played = ""
-    game_difficulty = ""
 
-    # while not choose quit
-    while not game_played == "0":
+    game_played = request.form.get('game', None)
+    game_difficulty = request.form.get('difficulty', None)
 
-        # clear previous game selection
-        game_played = ""
-
-        # print menu
-        while not (game_played.isdigit() and 1 <= int(game_played) <= 3):
-            menu = ('''Please choose a game to play:
+    menu = ('''Please choose a game to play:
             1.Memory Game - a sequence of numbers will appear for 1 second and you have to guess it back
             2.Guess Game - guess a number and see if you chose like the computer
             3.Currency Roulette - try and guess the value of a random amount of USD in ILS
             Enter 0 to exit''')
-            game_played = input()
 
-            # quit if pick 0
-            if game_played == "0":
-                break
+    if not game_played is None and (game_played.isdigit() and 1 <= int(game_played) <= 3):
+        if not game_difficulty is None and (game_difficulty.isdigit() and 1 <= int(game_played) <= 5):
+            game_picked = games_list[game_played](game_difficulty)
+            is_lost = game_picked.play()
+            if is_lost:
+                return render_template('main.html', message="you lost!")
+            else:
+                return render_template('main.html', message="you won!")
 
-        # quit if pick 0
-        if game_played == "0":
-            break
-
-        # clear previous difficulty selection
-        game_difficulty = ""
-
-        # pick difficulty
-        while not (game_difficulty.isdigit() and 1 <= int(game_difficulty) <= 5):
-            game_difficulty = input("Please choose game difficulty from 1 (easy) to 5 (hard):\n")
-
-        # play picked game
-        game_picked = games_list[game_played](game_difficulty)
-        Is_lost = game_picked.play()
-        if Is_lost:
-            print("you lost!")
         else:
-            print("you won!")
+            difficulty_message = "Please choose game difficulty from 1 (easy) to 5 (hard)"
+            return render_template('main.html', message=menu, difficulty=difficulty_message)
+    elif game_played == "0":
+        return render_template('main.html', message='Goodbye!')
+    else:
+        return render_template('main.html', message=menu)

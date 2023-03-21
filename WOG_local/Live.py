@@ -15,7 +15,6 @@ def welcome(name):
 def load_game():
     games_list = {"1": MemoryGame, "2": GuessGame, "3": CurrencyRouletteGame}
     game_played = ""
-    game_difficulty = ""
 
     # while not choose quit
     while not game_played == "0":
@@ -49,8 +48,8 @@ def load_game():
 
         # play picked game
         game_picked = games_list[game_played](game_difficulty)
-        Is_lost = game_picked.play()
-        if Is_lost:
+        is_lost = game_picked.play()
+        if is_lost:
             print("you lost!")
         else:
             print("you won!")
