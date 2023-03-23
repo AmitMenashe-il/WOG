@@ -1,6 +1,6 @@
 from random import randint
 from time import sleep
-
+from flask import Flask, render_template, request
 
 class MemoryGame:
 

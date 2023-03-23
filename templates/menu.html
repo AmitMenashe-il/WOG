@@ -7,25 +7,27 @@
     <h1>Games Menu</h1>
     <form method="POST" action="/menu">
       <pre>
-        <label for="game">{{message}}:</label>
+        <label for="game">{{message}}</label>
       </pre>
       {% if not difficulty %}
       <span style="margin-left: 80px;">
+      {% if  message !="Goodbye!" %}
       <input type="text" name="game" id="game">
       <input type="submit" value="Submit">
-      {% endif %}
-    </form>
-      {% if difficulty %}
-    <form method="POST" action="/menu">
+
+    {% endif %}
+    {% endif %}
+    {% if difficulty %}
+    <input type="hidden" name="game" value="{{game_played}}">
+
       <pre>
         <label for="difficulty">{{difficulty}}:</label>
       </pre>
       <span style="margin-left: 80px;">
       <input type="text" name="difficulty" id="difficulty">
       <input type="submit" value="Submit"">
-      {% endif %}
     </form>
-
+    {% endif %}
   </body>
 </html>
 
