@@ -1,0 +1,1 @@
+move rendering to live, use games as funcs, route in live
