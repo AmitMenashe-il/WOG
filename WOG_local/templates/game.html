@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Scores Game</title>
+    </head>
+    <body>
+        {% if not ERROR %}
+        <h1>The score is <div id="score">{SCORE}</div></h1>
+        {% endif %}
+        {% if ERROR %}
+        <h1><div id="score" style="color:red">{ERROR}</div></h1>
+        {% endif %}
+    </body>
+</html>
