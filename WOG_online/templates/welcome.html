@@ -5,18 +5,16 @@
   </head>
   <body>
     <h1>Welcome to World of Games</h1>
-    {% if not message %}
     <form method="POST" action="/">
+    {% if not message %}
       <label for="name">Enter your name:</label>
       <input type="text" name="name" id="name">
       <input type="submit" value="Submit">
-    </form>
     {% endif %}
-  		{% if message %}
-			<p>{{ message }}</p>
-            <form method="POST" action="/menu">
-			    <input type="submit" value="Play Games">
-			</form>
-		{% endif %}
+    {% if message %}
+      <p>{{ message }}</p>
+      <input type="submit" value="Play Games" formaction="/menu">
+    {% endif %}
+    </form>
   </body>
 </html>

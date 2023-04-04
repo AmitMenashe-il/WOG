@@ -1,6 +1,5 @@
 from random import randint
 from time import sleep
-from flask import Flask, render_template, request
 
 class MemoryGame:
 
@@ -41,7 +40,6 @@ class MemoryGame:
 
     # play the game. returns True / False if the user lost or won.
     def play(self):
-
         generated_number_list = self.generate_sequence()
         print(generated_number_list, end="")
         sleep(0.7)
