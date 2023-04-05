@@ -16,29 +16,37 @@ def MemoryGame(difficulty):
             numbers_list[i] = str(randint(1, 101))
         return numbers_list
 
-    if not "generated_number_list" in locals():
-        game="MemoryGame"
+
+    if "numbers_shown" not in session:
+        game = "MemoryGame"
         generated_number_list = generate_sequence(difficulty)
-        user_guess_length=int(difficulty)
-        guess_list=[None]*user_guess_length
+        session['user_guess_length'] = int(difficulty)
+        session['guess_list'] = [None] * session['user_guess_length']
+        session['numbers_shown'] = True
+        return render_template('memorygame_show.html', game=game, message=generated_number_list, difficulty=difficulty)
 
-    if not "numbers_shown" in locals():
-        return render_template('game.html', game=game, message_request=generated_number_list, difficulty=difficulty)
-        numbers_shown=True
-        sleep(0.7)
 
-    while user_guess_length >0:
+    while session['user_guess_length'] >0:
 
         user_guess = request.form.get('user_input', 'a')
 
         if user_guess.isdigit() and 1 <= int(user_guess) <= 101:
-            guess_list[user_guess_length-1] = int(user_guess)
-            user_guess_length-=1
+            session['guess_list'][user_guess_length-1] = int(user_guess)
+            session['user_guess_length']-=1
 
-        game_message = f"Enter a number between 1 and 101, you need to enter {user_guess_length} more numbers:\n"
-        return render_template('game.html',game=game, message_request=game_message,difficulty=difficulty)
+        game_message = f"Enter a number between 1 and 101, you need to enter {session['user_guess_length']} more numbers:\n"
+        if session['user_guess_length']>0:
+            return render_template('game.html', game=game, message_request=game_message, difficulty=difficulty)
+        else:
+            break
 
     game_response=f"the numbers were: {generated_number_list}"
+    del session['user_guess_length']
+    del session['guess_list']
+    del session['numbers_shown']
+    #check if lists equal and get outcome
+
+
     return render_template('game.html',game=game, message_response=game_response)
 @app.route('/GuessGame/<int:difficulty>', methods=['GET', 'POST'])
 def GuessGame(difficulty):
@@ -96,7 +104,7 @@ def menu():
     if session.get('game_played'):
         if not game_difficulty is None and (game_difficulty.isdigit() and 1 <= int(game_difficulty) <= 5):
             game_played=games_list[session['game_played']]
-            session['game_played'] = None
+            del session['game_played']
             return render_template('GameSelect.html',game_played=game_played,difficulty=game_difficulty)
 
         else:
@@ -115,8 +123,9 @@ def outcome():
             if not outcome:
                 return render_template('endgame.html', message="you lost!")
             else:
+                del session['outcome']
                 return render_template('endgame.html', message="you won!")
-            session['outcome'] = None
+
 
 
 

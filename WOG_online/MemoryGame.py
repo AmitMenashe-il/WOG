@@ -1,18 +1,10 @@
 from random import randint
 from time import sleep
 
-class MemoryGame:
-
-    # sets the game difficulty as a property
-    def __init__(self, difficulty):
-        self.difficulty = difficulty
+c
 
     # generates a list of random numbers between 1 to 101. The list length is difficulty.
-    def generate_sequence(self):
-        numbers_list = [None] * int(self.difficulty)
-        for i in range(int(self.difficulty)):
-            numbers_list[i] = str(randint(1, 101))
-        return numbers_list
+
 
     # returns a list of numbers prompted from the user. The list length is in the size of difficulty.
     def get_list_from_user(self):

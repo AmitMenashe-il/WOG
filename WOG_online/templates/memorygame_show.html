@@ -1,14 +1,26 @@
-<!doctype html>
+ <!doctype html>
 <html>
   <head>
     <title>World of Games</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function delaySubmit() {
+    setTimeout(function() {
+      $('form').submit();
+    }, 700);
+  }
+
+  $(document).ready(function() {
+    $('form').submit();
+  });
+    </script>
   </head>
   <body>
 
 
-    <form method="POST" action="/menu">
-      <label for="endgame">{{message}}</label>
-      <input type="submit" value="Back to Menu">
+    <form method="POST" action="/{{game}}/{{difficulty}}">
+      <label for="show_numbers"> {{message}}</label>
+      <button type="submit" onclick="delaySubmit()" hidden>Submit</button>>
     </form>
 
   </body>
