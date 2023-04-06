@@ -1,27 +1,21 @@
- <!doctype html>
+<!doctype html>
 <html>
   <head>
     <title>World of Games</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      function delaySubmit() {
-    setTimeout(function() {
-      $('form').submit();
-    }, 700);
-  }
-
-  $(document).ready(function() {
-    $('form').submit();
-  });
+      $(document).ready(function() {
+        $('button[type="submit"]').hide();
+        setTimeout(function() {
+          $('button[type="submit"]').click();
+        }, 700);
+      });
     </script>
   </head>
   <body>
-
-
     <form method="POST" action="/{{game}}/{{difficulty}}">
-      <label for="show_numbers"> {{message}}</label>
-      <button type="submit" onclick="delaySubmit()" hidden>Submit</button>>
+      <label for="show_numbers">{{message}}</label>
+      <button type="submit">Submit</button>
     </form>
-
   </body>
 </html>
