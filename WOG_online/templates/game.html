@@ -4,7 +4,7 @@
     <title>World of Games</title>
   </head>
   <body>
-    <h1>GuessGame</h1>
+    <h1>{{game}}</h1>
     {% if message_request %}
     <form method="POST" action="/{{game}}/{{difficulty}}">
       <label for="user_input">{{message_request}}</label>

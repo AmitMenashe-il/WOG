@@ -1,7 +1,8 @@
-from py_currency_converter import convert
+from MemoryGame import generate_sequence, is_list_equal
+from CurrencyRouletteGame import get_money_interval
+
 
 from random import randint
-
 from flask import Flask, render_template, request, session
 
 app = Flask(__name__)
@@ -10,21 +11,6 @@ app.secret_key = 'ranD0m_V3ry-5ecUre-seCreT_K3y'
 
 @app.route('/MemoryGame/<int:difficulty>', methods=['GET', 'POST'])
 def MemoryGame(difficulty):
-    def generate_sequence(difficulty):
-        numbers_list = [None] * int(difficulty)
-        for i in range(int(difficulty)):
-            numbers_list[i] = str(randint(1, 101))
-        return numbers_list
-
-    def is_list_equal(difficulty, generated_number_list, user_number_list):
-        list_equal = True
-        generated_number_list.sort()
-        user_number_list.sort()
-        for number in range(int(difficulty)):
-            if not user_number_list[number] == generated_number_list[number] and list_equal:
-                list_equal = False
-        return list_equal
-
     # on first run init variables and show the numbers
     if "generated_number_list" not in session:
         session['generated_number_list'] = generate_sequence(difficulty)
@@ -78,19 +64,6 @@ def GuessGame(difficulty):
 
 @app.route('/CurrencyRouletteGame/<int:difficulty>', methods=['GET', 'POST'])
 def CurrencyRouletteGame(difficulty):
-
-    def get_money_interval(difficulty, usd_amount: int):
-        money_interval = [None] * 3
-
-        # converting USD to ILS for given amount
-
-        money_interval[0] = convert(base="USD", amount=usd_amount, to=["ILS"])["ILS"]
-
-        # getting interval min/max as follows:
-        # for given difficulty d, and total value of money t the interval is: (t - (5 - d), t +(5 - d))
-        money_interval[1] = money_interval[0] - (5 - int(difficulty))
-        money_interval[2] = money_interval[0] + (5 - int(difficulty))
-        return money_interval
 
     #initilaze usd amount and messages
     if 'usd_amount' not in session:
