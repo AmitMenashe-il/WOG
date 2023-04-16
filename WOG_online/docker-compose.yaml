@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  WorldOfGames:
+    image: wog_main_img
+    ports:
+      - "5000:5000"
+    environment:
+      PYTHONPATH: /guessgame_vol:/memorygame_vol:/crgame_vol
+
+    depends_on:
+      - GuessGame
+      - MemoryGame
+      - CRGame
+  
+  GuessGame:
+    image: guessgame_img
+    volumes:
+      - guessgame_vol:/app
+
+  MemoryGame:
+    image: memorygame_img
+    volumes:
+      - memorygame_vol:/app
+
+  CRGame:
+    image: cr-game_img
+    volumes:
+      - crgame_vol:/app
+
+volumes:
+  guessgame_vol:
+  memorygame_vol:
+  crgame_vol:

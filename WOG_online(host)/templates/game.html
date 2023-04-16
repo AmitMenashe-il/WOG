@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>World of Games</title>
+  </head>
+  <body>
+    <h1>{{game}}</h1>
+    {% if message_request %}
+    <form method="POST" action="/{{game}}/{{difficulty}}">
+      <label for="user_input">{{message_request}}</label>
+      <input type="text" name="user_input" id="user_input">
+      <input type="submit" value="Submit">
+    </form>
+    {% endif %}
+    {% if message_response %}
+    <form method="POST" action="/outcome">
+      <label for="user_input">{{message_response}}</label>
+      <br>
+      <input type="submit" value="Continue">
+    </form>
+    {% endif %}
+  </body>
+</html>
