@@ -1,5 +1,7 @@
 from MemoryGame import generate_sequence, is_list_equal
 from CurrencyRouletteGame import get_money_interval
+from GuessGame import generate_number, compare_results
+from Score import add_score
 
 
 from random import randint
@@ -48,14 +50,14 @@ def MemoryGame(difficulty):
 @app.route('/GuessGame/<int:difficulty>', methods=['GET', 'POST'])
 def GuessGame(difficulty):
     if 'secret_number' not in locals():
-        secret_number = randint(1, int(difficulty))
+        secret_number = generate_number(difficulty)
         game_message = f"please enter your guess, a number between 1 and {difficulty}:"
 
     user_guess = request.form.get('user_input', 'a')
 
     if user_guess.isdigit() and (1 <= int(user_guess) <= int(difficulty)):
         random_number_msg = (f"the number drawn was : {secret_number}")
-        session['outcome'] = user_guess == str(secret_number)
+        session['outcome'] = compare_results(user_guess, str(secret_number))
         return render_template('game.html', game=session['game_played'], message_response=random_number_msg)
     else:
         return render_template('game.html', game=session['game_played'], message_request=game_message,
@@ -119,13 +121,12 @@ def menu():
     # if game chosen, check difficulty is valid
     if 'game_played' in session:
         if not game_difficulty is None and (game_difficulty.isdigit() and 1 <= int(game_difficulty) <= 5):
+            session['difficulty'] = game_difficulty
             if session['game_played'].isdigit():
                 session['game_played'] = games_list[session['game_played']]
-                return render_template('GameSelect.html', game_played=session['game_played'],
-                                       difficulty=game_difficulty)
+                return render_template('GameSelect.html', game_played=session['game_played'], difficulty=game_difficulty)
             else:
-                return render_template('GameSelect.html', game_played=session['game_played'],
-                                       difficulty=game_difficulty)
+                return render_template('GameSelect.html', game_played=session['game_played'], difficulty=game_difficulty)
 
 
         else:
@@ -142,9 +143,12 @@ def outcome():
     del session['game_played']
     if not session['outcome']:
         del session['outcome']
+        del session['difficulty']
         return render_template('endgame.html', message="you lost!")
     else:
         del session['outcome']
+        add_score(session['difficulty'])
+        del session['difficulty']
         return render_template('endgame.html', message="you won!")
 
 
