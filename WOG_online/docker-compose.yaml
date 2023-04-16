@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   WorldOfGames:
-    image: wog_main_img
+    image: amitmenashe/wog_main_img
     ports:
       - "5000:5000"
     environment:
@@ -13,17 +13,17 @@ services:
       - CRGame
   
   GuessGame:
-    image: guessgame_img
+    image: amitmenashe/guessgame_img
     volumes:
       - guessgame_vol:/app
 
   MemoryGame:
-    image: memorygame_img
+    image: amitmenashe/memorygame_img
     volumes:
       - memorygame_vol:/app
 
   CRGame:
-    image: cr-game_img
+    image: amitmenashe/cr-game_img
     volumes:
       - crgame_vol:/app
 
