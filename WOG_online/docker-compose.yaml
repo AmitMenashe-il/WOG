@@ -1,33 +1,53 @@
 version: '3.9'
 services:
+
   WorldOfGames:
+    container_name: world-of-games
     image: amitmenashe/wog_main_img
+    command: tail -F anything
     ports:
       - "5000:5000"
     environment:
       PYTHONPATH: /guessgame_vol:/memorygame_vol:/crgame_vol
+    volumes:
+      - vol1:/app/
 
-    depends_on:
-      - GuessGame
-      - MemoryGame
-      - CRGame
+    # depends_on:
+    #   - GuessGame
+    #   - MemoryGame
+    #   - CRGame
+      # - DB
   
   GuessGame:
+    container_name: guess-game
     image: amitmenashe/guessgame_img
+    command: tail -F anything
     volumes:
-      - guessgame_vol:/app
+      - vol1:/app/
+  #     - guessgame_vol:/app
 
-  MemoryGame:
-    image: amitmenashe/memorygame_img
-    volumes:
-      - memorygame_vol:/app
+  # MemoryGame:
+  #   image: amitmenashe/memorygame_img
+  #   volumes:
+  #     - memorygame_vol:/app
 
-  CRGame:
-    image: amitmenashe/cr-game_img
-    volumes:
-      - crgame_vol:/app
+  # CRGame:
+  #   image: amitmenashe/cr-game_img
+  #   volumes:
+  #     - crgame_vol:/app
+  #     - c:\CRGame:/app
+  
+  # DB:
+  #   image: mysql
+  #   env_file:
+  #    - ./db/db.env
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #     - ./db/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
 
 volumes:
-  guessgame_vol:
-  memorygame_vol:
-  crgame_vol:
+  vol1:
+#   guessgame_vol:
+#   memorygame_vol:
+#   crgame_vol:
+# mysql-data:

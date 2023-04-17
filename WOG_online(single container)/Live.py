@@ -1,3 +1,5 @@
+
+
 from MemoryGame import generate_sequence, is_list_equal
 from CurrencyRouletteGame import get_money_interval
 from GuessGame import generate_number, compare_results
@@ -92,7 +94,7 @@ def CurrencyRouletteGame(difficulty):
 def welcome():
     if request.method == 'POST':
         name = request.form.get('name')
-        session['name'] = name.capitalize()
+        name = name.capitalize()
         welcome_message = f"Hello {name} and welcome to the World of Games (WoG).\n" \
                           "Here you can find many cool games to play."
         return render_template('welcome.html', message=welcome_message)
@@ -133,7 +135,6 @@ def menu():
             difficulty_message = "Please choose game difficulty from 1 (easy) to 5 (hard)"
             return render_template('menu.html', message=menu, difficulty=difficulty_message)
     elif game_played == "0":
-        del session['name']
         return render_template('menu.html', message='Goodbye!')
     else:
         return render_template('menu.html', message=menu)
