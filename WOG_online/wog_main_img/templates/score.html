@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Scoreboard</title>
+  </head>
+  <body>
+    <h1>Scoreboard</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Score</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for score in scores %}
+        <tr>
+          <td>{{ score.username }}</td>
+          <td>{{ score.score }}</td>
+          <td>{{ score.timestamp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  <form action="/game">
+    <input type="submit" value="Back to Menu">
+  </form>
+  </body>
+</html>

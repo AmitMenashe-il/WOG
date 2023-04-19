@@ -2,6 +2,7 @@ echo "******** Creating DB, Table and user"
 
 mysql -u root -p$MYSQL_ROOT_PASSWORD --execute \
 "
+SET TIME_ZONE='israel';
 CREATE DATABASE IF NOT EXISTS $DB_NAME;
 CREATE TABLE $DB_NAME.$TABLE_NAME (
         id int not null auto_increment primary key,

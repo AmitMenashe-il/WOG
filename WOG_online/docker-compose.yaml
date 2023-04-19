@@ -16,7 +16,7 @@ services:
       - GuessGame
       - MemoryGame
       - CRGame
-     # - DB
+      - DB
   
   GuessGame:
     image: amitmenashe/guessgame_img
@@ -33,16 +33,13 @@ services:
     volumes:
       - crgame_vol:/app
   
-  
-  # DB:
-  #   image: mysql
-  #   ports:
-  #     - 3306:3306
-  #   env_file:
-  #    - db.env
-  #   volumes:
-  #     - ./init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
-
+  DB:
+    image: amitmenashe/wog_mysql_img
+    ports:
+      - 3306:3306
+    env_file:
+     - db.env
+    
 volumes:
   guessgame_vol:
   memorygame_vol:

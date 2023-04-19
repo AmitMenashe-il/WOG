@@ -93,8 +93,9 @@ def welcome():
     if request.method == 'POST':
         name = request.form.get('name')
         session['name'] = name.capitalize()
-        welcome_message = f"Hello {name} and welcome to the World of Games (WoG).\n" \
+        welcome_message = f"Hello {session['name']} and welcome to the World of Games (WoG).\n" \
                           "Here you can find many cool games to play."
+        session['score']=0
         return render_template('welcome.html', message=welcome_message)
     else:
         return render_template('welcome.html')
@@ -134,6 +135,7 @@ def menu():
             return render_template('menu.html', message=menu, difficulty=difficulty_message)
     elif game_played == "0":
         del session['name']
+        del session['score']
         return render_template('menu.html', message='Goodbye!')
     else:
         return render_template('menu.html', message=menu)
@@ -148,7 +150,8 @@ def outcome():
         return render_template('endgame.html', message="you lost!")
     else:
         del session['outcome']
-        add_score(session['difficulty'])
+        session['score'] += 5 + 3 * int(session['difficulty'])
+        add_score(session['name'],session['score'])
         del session['difficulty']
         return render_template('endgame.html', message="you won!")
 
