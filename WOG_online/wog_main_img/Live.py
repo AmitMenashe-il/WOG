@@ -1,12 +1,19 @@
+#games modules
 from MemoryGame import generate_sequence, is_list_equal
 from CurrencyRouletteGame import get_money_interval
 from GuessGame import generate_number, compare_results
 from Score import add_score
-
-
 from random import randint
+#mysql modules
+from sqlalchemy import create_engine, Column, Integer, String, TIMESTAMP, text
+from sqlalchemy.orm import sessionmaker, declarative_base
+from alembic.config import Config
+from alembic import command
+from os import environ
+#flask modules
 from flask import Flask, render_template, request, session
 
+#init flask and secret key for session variables
 app = Flask(__name__)
 app.secret_key = 'ranD0m_V3ry-5ecUre-seCreT_K3y'
 
@@ -86,6 +93,33 @@ def CurrencyRouletteGame(difficulty):
     else:
         return render_template('game.html', game=session['game_played'], message_request=game_message,difficulty=difficulty)
 
+@app.route('/Scores', methods=['GET', 'POST'])
+def score_server():
+
+    # Alembic configuration file path (none, env.py in folder)
+    alembic_cfg = Config()
+    alembic_cfg.set_main_option("script_location",
+                                "/app")
+    command.upgrade(alembic_cfg, "head")
+
+    # Initialize database engine
+    engine = create_engine(f"mysql://{environ['USER_NAME']}:{environ['USER_PASSWORD']}@DB/{environ['DB_NAME']}?host=DB")
+
+    # Declare database table
+    class user_scores_table(declarative_base()):
+        __tablename__ = environ['TABLE_NAME']
+        id = Column(Integer, primary_key=True)
+        username = Column(String)
+        score = Column(Integer)
+        timestamp = Column(TIMESTAMP, server_default=text('CURRENT_TIMESTAMP'))
+
+    # Create a session to interact with the database
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    # Check if the value exists in the database, and update it or create it if it doesn't
+    scores = session.query(user_scores_table).all()
+    return render_template('score.html', scores=scores)
 
 # welcomes the player
 @app.route('/', methods=['GET', 'POST'])

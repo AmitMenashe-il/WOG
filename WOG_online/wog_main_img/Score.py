@@ -1,4 +1,5 @@
 # add game score after winning to scores db table
+
 def add_score(name,score):
     from sqlalchemy import create_engine, Column, Integer, String, func
     from sqlalchemy.orm import sessionmaker, declarative_base
@@ -9,11 +10,11 @@ def add_score(name,score):
     # Alembic configuration file path (none, env.py in folder)
     alembic_cfg = Config()
     alembic_cfg.set_main_option("script_location",
-                                "/")
+                                "/app")
     command.upgrade(alembic_cfg, "head")
 
     # Initialize database engine
-    engine = create_engine(f"mysql://{environ['USER_NAME']}:{environ['USER_PASSWORD']}@localhost/{environ['DB_NAME']}")
+    engine = create_engine(f"mysql://{environ['USER_NAME']}:{environ['USER_PASSWORD']}@DB/{environ['DB_NAME']}")
 
     # Declare database table
     class user_scores_table(declarative_base()):

@@ -5,13 +5,14 @@ services:
     image: amitmenashe/wog_main_img
     ports:
       - 80:5000
-    environment:
-      PYTHONPATH: /guessgame:/memorygame:/crgame
+    env_file:
+     - live.env
     volumes:
       - guessgame_vol:/guessgame/
       - memorygame_vol:/memorygame/
       - crgame_vol:/crgame/
-
+    networks:
+      - wog_network
     depends_on:
       - GuessGame
       - MemoryGame
@@ -22,21 +23,27 @@ services:
     image: amitmenashe/guessgame_img
     volumes:
       - guessgame_vol:/app
+    networks:
+      - wog_network
 
   MemoryGame:
     image: amitmenashe/memorygame_img
     volumes:
       - memorygame_vol:/app
+    networks:
+      - wog_network
 
   CRGame:
     image: amitmenashe/cr-game_img
     volumes:
       - crgame_vol:/app
-  
+    networks:
+      - wog_network
+
   DB:
     image: amitmenashe/wog_mysql_img
-    ports:
-      - 3306:3306
+    networks:
+      - wog_network
     env_file:
      - db.env
     
@@ -44,3 +51,6 @@ volumes:
   guessgame_vol:
   memorygame_vol:
   crgame_vol:
+
+networks:
+  wog_network:
