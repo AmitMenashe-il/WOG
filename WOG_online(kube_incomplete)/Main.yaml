@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wog-main
+  namespace: wog
+spec:
+  selector:
+    app: wog-main
+  ports:
+  - name: http
+    port: 80
+    targetPort: 5000
+  type: NodePort
+---
+apiVersion: v1
+kind: pod
+metadata:
+  name: wog-main
+  namespace: wog-namespace
+spec:
+  containers:
+  - name: wog-main
+    image: amitmenashe/wog_main_img
+    env:
+    - name: GUESSGAME_SERVICE_HOST
+      value: guessgame-service
+    - name: MEMORYGAME_SERVICE_HOST
+      value: memorygame-service
+    - name: CRGAME_SERVICE_HOST
+      value: crgame-service
+    ports:
+    - containerPort: 5000
+    volumeMounts:
+    - name: guessgame-vol
+      mountPath: /guessgame/
+    - name: memorygame-vol
+      mountPath: /memorygame/
+    - name: crgame-vol
+      mountPath: /crgame/
+    volumes:
+    - name: guessgame-vol
+      persistentVolumeClaim:
+        claimName: guessgame-pvc
+    - name: memorygame-vol
+      persistentVolumeClaim:
+        claimName: memorygame-pvc
+    - name: crgame-vol
+      persistentVolumeClaim:
+        claimName: crgame-pvc

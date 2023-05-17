@@ -1,0 +1,6 @@
+kubectl apply -f namespace.yaml
+kubectl apply -f CRGame.yaml
+kubectl apply -f memorygame.yaml
+kubectl apply -f Guessgame.yaml
+kubectl apply -f Mysql.yaml
+kubectl apply -f Main.yaml

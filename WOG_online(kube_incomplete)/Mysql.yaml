@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wog-mysql
+  namespace: wog
+spec:
+  containers:
+  - name: wog-mysql-container
+    image: amitmenashe/wog_mysql_img
+    ports:
+    - containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wog-mysql
+  namespace: wog
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: wog-mysql

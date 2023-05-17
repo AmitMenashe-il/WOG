@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: guessgame
+  namespace: wog
+spec:
+  containers:
+  - name: guessgame-container
+    image: amitmenashe/guessgame_img
+    volumeMounts:
+    - name: guessgame-vol
+      mountPath: /app
+  volumes:
+  - name: guessgame-vol
+    persistentVolumeClaim:
+      claimName: guessgame-pvc

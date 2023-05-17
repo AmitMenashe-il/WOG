@@ -1,0 +1,7 @@
+FROM python
+
+WORKDIR /app
+EXPOSE 5000
+COPY Live.py MainScores.py requirements.txt templates Score.py Utils.py .
+RUN pip install -r requirements.txt
+CMD python Live.py
