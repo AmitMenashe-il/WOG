@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                bat 'git clone <http>'
+                bat 'git clone <http..>'
+                bat 'cd <project>'
             }
         }
 	stage('Build')
