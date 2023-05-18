@@ -1,5 +1,0 @@
-py-currency-converter
-flask
-sqlalchemy
-alembic
-mysqlclient
