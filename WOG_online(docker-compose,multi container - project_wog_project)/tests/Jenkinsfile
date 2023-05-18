@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                bat 'git clone <http>'
+            }
+        }
+	stage('Build')
+	    steps {
+                bat 'docker build image .'
+            }
+	stage('Run')
+	    steps {
+                bat 'docker run -d -p 8777:5000 image'
+            }
+    stage('Test')
+	    steps {
+                bat 'python e2e.py && docker-compose push'
+            }        
+    }
+}
