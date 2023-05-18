@@ -18,6 +18,7 @@ pipeline {
             }
     stage('Test')
 	    steps {
+                bat 'apt-get upgrade && apt-get install python' //if the pod doesn't have python
                 bat 'python e2e.py && docker-compose push'
             }        
     }
