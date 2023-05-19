@@ -22,7 +22,7 @@ pipeline {
     stage('Test')
 	    steps {
                 
-                bat 'python e2e.py && docker-compose push'
+                bat 'python e2e.py && docker-compose push' // && works only if exit code is 0, if issue exit code is 1
             }        
     }
 }
