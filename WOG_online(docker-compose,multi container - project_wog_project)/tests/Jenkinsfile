@@ -4,6 +4,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+		bat 'apt-get upgrade && apt-get install python' //if the pod doesn't have python
+		bat 'apt-get install docker'
+		bat 'pip install selenium webdriver_manager' // for e2e
                 bat 'git clone <http..>'
                 bat 'cd <project>'
             }
@@ -18,7 +21,7 @@ pipeline {
             }
     stage('Test')
 	    steps {
-                bat 'apt-get upgrade && apt-get install python' //if the pod doesn't have python
+                
                 bat 'python e2e.py && docker-compose push'
             }        
     }
