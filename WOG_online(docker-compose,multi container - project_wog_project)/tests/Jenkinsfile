@@ -4,25 +4,25 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-		bat 'apt-get upgrade && apt-get install python' //if the pod doesn't have python
-		bat 'apt-get install docker'
-		bat 'pip install selenium webdriver_manager' // for e2e
-                bat 'git clone <http..>'
-                bat 'cd <project>'
+		sh 'apt-get upgrade && apt-get install python' //if the pod doesn't have python
+		sh 'apt-get install docker'
+		sh 'pip install selenium webdriver_manager' // for e2e
+                sh 'git clone <http..>'
+                sh 'cd <project>'
             }
         }
 	stage('Build')
 	    steps {
-                bat 'docker build image .'
+                sh 'docker build image .'
             }
 	stage('Run')
 	    steps {
-                bat 'docker run -d -p 8777:5000 image'
+                sh 'docker run -d -p 8777:5000 image'
             }
     stage('Test')
 	    steps {
                 
-                bat 'python e2e.py && docker-compose push' // && works only if exit code is 0, if issue exit code is 1
+                sh 'python e2e.py && docker-compose push' // && works only if exit code is 0, if issue exit code is 1
             }        
     }
 }
